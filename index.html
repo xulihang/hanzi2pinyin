@@ -30,7 +30,12 @@
     </div>
     <script>
       var currentSize = 35;
+
       window.onload = function(){
+        if (getCookie("fontsize")) {
+          currentSize = getCookie("fontsize");
+          document.getElementById("result").style.fontSize = currentSize + "px";
+        }
         var text = getURLParameter("text");
         if (text) {
           convertAndDisplay(text);
@@ -40,11 +45,13 @@
       function fontSizeUp(){
         currentSize = currentSize + 5;
         document.getElementById("result").style.fontSize = currentSize + "px";
+        document.cookie="fontsize="+currentSize;
       }
 
       function fontSizeDown(){
         currentSize = Math.max(10,currentSize - 5);
         document.getElementById("result").style.fontSize = currentSize + "px";
+        document.cookie="fontsize="+currentSize;
       }
 
       function convertAndDisplay(text){
@@ -62,6 +69,18 @@
           }
         }
         return undefined;
+      }
+
+      function getCookie(cname)
+      {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) 
+        {
+          var c = ca[i].trim();
+          if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+        }
+        return "";
       }
     </script>
   </body>
