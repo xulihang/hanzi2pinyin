@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hanzi2Pinyin</title>
+    <script src="https://unpkg.com/pinyin-pro"></script>
+    <style>
+      body{
+        font-size: 35px;
+      }
+      .controls {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+      }
+
+      .controls button {
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div id="result">Loading...</div>
+      <div class="controls">
+        <button onclick="fontSizeUp()">+</button>
+        <button onclick="fontSizeDown()">-</button>
+      </div>
+    </div>
+    <script>
+      var currentSize = 35;
+      window.onload = function(){
+        var text = getURLParameter("text");
+        if (text) {
+          convertAndDisplay(text);
+        }
+      }
+
+      function fontSizeUp(){
+        currentSize = currentSize + 5;
+        document.getElementById("result").style.fontSize = currentSize + "px";
+      }
+
+      function fontSizeDown(){
+        currentSize = Math.max(10,currentSize - 5);
+        document.getElementById("result").style.fontSize = currentSize + "px";
+      }
+
+      function convertAndDisplay(text){
+        var html = pinyinPro.html(text);
+        console.log(html);
+        document.getElementById("result").innerHTML = html;
+      }
+
+      function getURLParameter(key) {
+        let paramString = window.location.href.split('?')[1];
+        let queryString = new URLSearchParams(paramString);
+        for(let pair of queryString.entries()) {
+          if (pair[0] === key) {
+            return pair[1];
+          }
+        }
+        return undefined;
+      }
+    </script>
+  </body>
+</html>
